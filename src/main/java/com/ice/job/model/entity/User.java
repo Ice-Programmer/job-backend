@@ -1,4 +1,4 @@
-package com.ice.job.entity;
+package com.ice.job.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -35,6 +35,11 @@ public class User implements Serializable {
      * 手机
      */
     private String userPhone;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 用户昵称

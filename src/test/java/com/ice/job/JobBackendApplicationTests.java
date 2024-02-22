@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JobBackendApplicationTests {
 
     @Test
-    void contextLoads() {
+    void testPassword() {
     }
-
 }

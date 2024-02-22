@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class RedissonConfig {
 
-    private Integer database = 0;
+    private Integer database = 1;
 
     private String host = "127.0.0.1";
 

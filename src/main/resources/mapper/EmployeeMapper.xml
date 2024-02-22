@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.EmployeeMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.Employee">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="gender" column="gender" jdbcType="TINYINT"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="skillTag" column="skillTag" jdbcType="VARCHAR"/>
+            <result property="education" column="education" jdbcType="INTEGER"/>
+            <result property="majorId" column="majorId" jdbcType="BIGINT"/>
+            <result property="schoolId" column="schoolId" jdbcType="BIGINT"/>
+            <result property="positionIds" column="industryIds" jdbcType="VARCHAR"/>
+            <result property="graduateYear" column="graduateYear" jdbcType="INTEGER"/>
+            <result property="jobStatus" column="jobStatus" jdbcType="TINYINT"/>
+            <result property="salaryExpectation" column="salaryExpectation" jdbcType="VARCHAR"/>
+            <result property="biography" column="biography" jdbcType="VARCHAR"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,gender,
+        age,skillTag,education,
+        majorId,schoolId,positionIds,
+        graduateYear,jobStatus,salaryExpectation,
+        biography,address,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>

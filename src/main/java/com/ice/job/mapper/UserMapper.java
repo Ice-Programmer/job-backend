@@ -1,6 +1,6 @@
 package com.ice.job.mapper;
 
-import com.ice.job.entity.User;
+import com.ice.job.model.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
