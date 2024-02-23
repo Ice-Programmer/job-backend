@@ -20,6 +20,11 @@ public class EducationExperience implements Serializable {
     private Long id;
 
     /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
      * 学校id
      */
     private Long schoolId;

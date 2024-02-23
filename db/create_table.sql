@@ -120,6 +120,7 @@ create table if not exists industry_type
 create table if not exists education_experience
 (
     id            bigint auto_increment comment 'id' primary key,
+    userId        bigint                             not null comment '用户id',
     schoolId      bigint                             not null comment '学校id',
     educationType tinyint                            not null comment '学历类型',
     beginYear     int                                not null comment '开始年份',
@@ -129,5 +130,6 @@ create table if not exists education_experience
     postNum       int      default 0                 not null comment '相关数量',
     createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    isDelete      tinyint  default 0                 not null comment '是否删除'
-)
+    isDelete      tinyint  default 0                 not null comment '是否删除',
+    index idx_userId (userId)
+) comment '教育经历' collate = utf8mb4_unicode_ci;

@@ -6,6 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.ice.job.model.entity.EducationExperience">
             <id property="id" column="id" jdbcType="BIGINT"/>
+            <id property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="schoolId" column="schoolId" jdbcType="BIGINT"/>
             <result property="educationType" column="educationType" jdbcType="TINYINT"/>
             <result property="beginYear" column="beginYear" jdbcType="INTEGER"/>
@@ -19,7 +20,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,schoolId,educationType,
+        id,userId,schoolId,educationType,
         beginYear,endYear,majorId,
         activity,postNum,createTime,
         updateTime,isDelete

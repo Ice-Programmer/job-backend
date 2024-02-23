@@ -1,15 +1,17 @@
 package com.ice.job.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ice.job.common.BaseResponse;
+import com.ice.job.common.DeleteRequest;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.common.ResultUtils;
 import com.ice.job.exception.BusinessException;
+import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.request.education.EducationAddRequest;
+import com.ice.job.model.request.education.EducationQueryRequest;
+import com.ice.job.model.vo.EducationVO;
 import com.ice.job.service.EducationExperienceService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -39,5 +41,57 @@ public class EducationExpController {
         Long educationId = educationExperienceService.addEducation(educationAddRequest);
 
         return ResultUtils.success(educationId);
+    }
+
+    /**
+     * 根据 id 获取教育经历接口
+     *
+     * @param educationId 教育经历id
+     * @return 教育经历
+     */
+    @GetMapping("/get/{educationId}")
+    public BaseResponse<EducationVO> getEducation(@PathVariable Long educationId) {
+        if (educationId == null || educationId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "教育经历 id 为空");
+        }
+
+        EducationVO educationVO = educationExperienceService.getEducation(educationId);
+
+        return ResultUtils.success(educationVO);
+    }
+
+    /**
+     * 删除教育经历接口
+     *
+     * @param deleteRequest 教育 id
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public BaseResponse<Boolean> deleteEducation(@RequestBody DeleteRequest deleteRequest) {
+        Long id = deleteRequest.getId();
+        if (id == null || id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "id参数错误");
+        }
+
+        boolean result = educationExperienceService.deleteEducation(id);
+
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 获取教育经历分页接口
+     *
+     * @param educationQueryRequest 查询条件
+     * @return 教育经历分页
+     */
+    @PostMapping("/page")
+    public BaseResponse<Page<EducationVO>> pageEducation(@RequestBody EducationQueryRequest educationQueryRequest) {
+        long size = educationQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+
+        Page<EducationVO> educationVOPage = educationExperienceService.pageEducation(educationQueryRequest);
+
+        return ResultUtils.success(educationVOPage);
     }
 }
