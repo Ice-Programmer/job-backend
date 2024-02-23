@@ -4,6 +4,7 @@ import com.ice.job.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ice.job.model.request.user.UserLoginRequest;
 import com.ice.job.model.request.user.UserRegisterRequest;
+import com.ice.job.model.request.user.UserUpdateRequest;
 import com.ice.job.model.vo.UserLoginVO;
 
 /**
@@ -28,4 +29,19 @@ public interface UserService extends IService<User> {
      * @return 用户id
      */
     Long userRegister(UserRegisterRequest userRegisterRequest);
+
+    /**
+     * 用户基础信息更新
+     *
+     * @param userUpdateRequest 用户更新参数
+     * @return 用户基础信息
+     */
+    Long userUpdate(UserUpdateRequest userUpdateRequest);
+
+    /**
+     * 用户退出登录
+     * @return 退出登录
+     */
+    boolean userLogout();
+
 }

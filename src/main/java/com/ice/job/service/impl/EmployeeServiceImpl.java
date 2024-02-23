@@ -46,7 +46,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     private IndustryMapper industryMapper;
 
     @Override
-    public Long employeeRegister(EmployeeRegisterRequest registerRequest) {
+    public Long employUpdate(EmployeeRegisterRequest registerRequest) {
         // 1. 校验注册信息
         Employee employee = new Employee();
         BeanUtils.copyProperties(registerRequest, employee);

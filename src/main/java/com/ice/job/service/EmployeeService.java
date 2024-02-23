@@ -12,10 +12,10 @@ import com.ice.job.model.request.employee.EmployeeRegisterRequest;
 public interface EmployeeService extends IService<Employee> {
 
     /**
-     * 应聘者注册
+     * 应聘者信息更新
      *
      * @param registerRequest 应聘者基本信息
      * @return 用户id
      */
-    Long employeeRegister(EmployeeRegisterRequest registerRequest);
+    Long employUpdate(EmployeeRegisterRequest registerRequest);
 }

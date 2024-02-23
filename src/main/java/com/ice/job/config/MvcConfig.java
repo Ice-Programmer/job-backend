@@ -24,7 +24,12 @@ public class MvcConfig implements WebMvcConfigurer {
         // 登录拦截器
         registry.addInterceptor(new LoginInterceptor())
                 .excludePathPatterns(
-                        "/user/**"
+                        "/user/login",
+                        "/user/register",
+                        "/doc.html",  // Knife4j接口文档地址
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/v2/**"
                 )
                 .order(1);
 

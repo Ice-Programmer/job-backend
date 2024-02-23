@@ -9,14 +9,17 @@ import com.google.gson.Gson;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.constant.AvatarDefaultConstant;
 import com.ice.job.constant.UserConstant;
+import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
 import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.entity.User;
 import com.ice.job.model.request.user.UserLoginRequest;
 import com.ice.job.model.request.user.UserRegisterRequest;
+import com.ice.job.model.request.user.UserUpdateRequest;
 import com.ice.job.model.vo.UserLoginVO;
 import com.ice.job.service.UserService;
 import com.ice.job.mapper.UserMapper;
+import com.ice.job.utils.PrincipalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -55,7 +58,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public UserLoginVO userLogin(UserLoginRequest userLoginRequest) {
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
-        String userRole = userLoginRequest.getUserRole();
         // 1. 验证字段
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
@@ -151,6 +153,93 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
     }
 
+    @Override
+    public Long userUpdate(UserUpdateRequest userUpdateRequest) {
+        // 1. 校验用户信息
+        User user = new User();
+        BeanUtils.copyProperties(userUpdateRequest, user);
+        validUser(user);
+
+        // 2. 更新用户信息
+        baseMapper.updateById(user);
+
+        // 3. 修改缓存
+        // 3.1 取出 token
+        String token = UserHolder.getUser().getToken();
+        ThrowUtils.throwIf(StringUtils.isBlank(token), ErrorCode.NOT_LOGIN_ERROR);
+        // 3.2 查出最新数据
+        User newUser = baseMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getId, user.getId())
+                .select(User::getId, User::getUserName, User::getUserAvatar, User::getUserRole)
+                .last("limit 1"));
+        UserLoginVO userLoginVO = new UserLoginVO();
+        BeanUtils.copyProperties(newUser, userLoginVO);
+        String userJSON = GSON.toJson(userLoginVO);
+        // 3.2 修改参数
+        stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.MINUTES);
+
+        return user.getId();
+    }
+
+    @Override
+    public boolean userLogout() {
+        // 取出 token 值
+        String token = UserHolder.getUser().getToken();
+
+        // 删除缓存信息
+        stringRedisTemplate.delete(LOGIN_USER_KEY + token);
+
+        log.info("user {} logout successfully!", UserHolder.getUser().getId());
+
+        return true;
+    }
+
+
+    /**
+     * 校验用户信息
+     *
+     * @param user 用户信息
+     */
+    private void validUser(User user) {
+        // 1. 判断用户是否存在
+        Long id = user.getId();
+        if (id == null || id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户 id 错误！");
+        }
+        Long count = baseMapper.selectCount(Wrappers.<User>lambdaQuery()
+                .eq(User::getId, id));
+        ThrowUtils.throwIf(count <= 0, ErrorCode.NOT_FOUND_ERROR, "用户信息不存在");
+
+        // 2. 校验用户账号
+        String userAccount = user.getUserAccount();
+        if (userAccount.length() < 4 || userAccount.length() > 15) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户账号长度错误!");
+        }
+
+        // 3. 校验手机
+        String userPhone = user.getUserPhone();
+        if (StringUtils.isBlank(userPhone) || !PrincipalUtil.isMobile(userPhone)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "手机号错误!");
+        }
+        // 2. 校验邮箱
+        String email = user.getEmail();
+        if (StringUtils.isBlank(email) || !PrincipalUtil.isEmail(email)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "邮箱格式错误！");
+        }
+
+        // 3. 校验用户名
+        String userName = user.getUserName();
+        if (StringUtils.isBlank(userName) || userName.length() > 10) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户名格式错误");
+        }
+
+        // 4. 校验头像
+        String userAvatar = user.getUserAvatar();
+        if (StringUtils.isBlank(userAvatar)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "头像为空");
+        }
+    }
+
 
     /**
      * 生成随机头像
@@ -176,6 +265,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         ThrowUtils.throwIf(StringUtils.isBlank(randomAvatar), ErrorCode.PARAMS_ERROR, "用户身份错误");
         return randomAvatar;
     }
+
 }
 
 
