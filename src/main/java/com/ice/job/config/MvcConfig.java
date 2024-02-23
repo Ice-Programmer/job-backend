@@ -26,10 +26,8 @@ public class MvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/user/login",
                         "/user/register",
-                        "/doc.html",  // Knife4j接口文档地址
-                        "/webjars/**",
-                        "/swagger-resources/**",
-                        "/v2/**"
+                        "/v2/**",
+                        "/**"
                 )
                 .order(1);
 

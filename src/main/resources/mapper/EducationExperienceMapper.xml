@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.EducationExperienceMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.EducationExperience">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="schoolId" column="schoolId" jdbcType="BIGINT"/>
+            <result property="educationType" column="educationType" jdbcType="TINYINT"/>
+            <result property="beginYear" column="beginYear" jdbcType="INTEGER"/>
+            <result property="endYear" column="endYear" jdbcType="INTEGER"/>
+            <result property="majorId" column="majorId" jdbcType="BIGINT"/>
+            <result property="activity" column="activity" jdbcType="VARCHAR"/>
+            <result property="postNum" column="postNum" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,schoolId,educationType,
+        beginYear,endYear,majorId,
+        activity,postNum,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>

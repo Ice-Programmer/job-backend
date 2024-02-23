@@ -206,9 +206,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (id == null || id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户 id 错误！");
         }
-        Long count = baseMapper.selectCount(Wrappers.<User>lambdaQuery()
+        boolean exist = baseMapper.exists(Wrappers.<User>lambdaQuery()
                 .eq(User::getId, id));
-        ThrowUtils.throwIf(count <= 0, ErrorCode.NOT_FOUND_ERROR, "用户信息不存在");
+        ThrowUtils.throwIf(!exist, ErrorCode.NOT_FOUND_ERROR, "用户信息不存在");
 
         // 2. 校验用户账号
         String userAccount = user.getUserAccount();

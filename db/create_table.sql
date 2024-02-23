@@ -120,7 +120,7 @@ create table if not exists industry_type
 create table if not exists education_experience
 (
     id            bigint auto_increment comment 'id' primary key,
-    educationId   bigint                             not null comment '学校id',
+    schoolId      bigint                             not null comment '学校id',
     educationType tinyint                            not null comment '学历类型',
     beginYear     int                                not null comment '开始年份',
     endYear       int                                not null comment '结束年份',

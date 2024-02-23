@@ -60,6 +60,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         // 插入数据库
         baseMapper.insert(employee);
 
+        // todo 删除缓存中应聘者信息
+
         return employee.getUserId();
     }
 
