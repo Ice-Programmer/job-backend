@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
  * @create 2023/7/28 11:44
  */
 public enum EducationEnum {
-    // 大专生 本科生 研究生 博士生
     COLLEGE_STUDENT("大专生", 0),
     UNDERGRADUATE_STUDENT("本科生", 1),
     GRADUATE_STUDENT("研究生", 2),

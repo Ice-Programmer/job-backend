@@ -10,7 +10,7 @@ import java.util.List;
  * @create 2024/2/22 14:05
  */
 @Data
-public class EmployeeRegisterRequest implements Serializable {
+public class EmployeeUpdateRequest implements Serializable {
 
     /**
      * 用户id
@@ -36,16 +36,6 @@ public class EmployeeRegisterRequest implements Serializable {
      * 最高学历
      */
     private Integer education;
-
-    /**
-     * 专业id
-     */
-    private Long majorId;
-
-    /**
-     * 学校id
-     */
-    private Long schoolId;
 
     /**
      * 行业期望

@@ -45,16 +45,6 @@ public class Employee implements Serializable {
     private Integer education;
 
     /**
-     * 专业id
-     */
-    private Long majorId;
-
-    /**
-     * 学校id
-     */
-    private Long schoolId;
-
-    /**
      * 行业期望
      */
     private String industryIds;

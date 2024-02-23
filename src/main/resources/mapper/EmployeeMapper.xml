@@ -11,9 +11,7 @@
             <result property="age" column="age" jdbcType="INTEGER"/>
             <result property="skillTag" column="skillTag" jdbcType="VARCHAR"/>
             <result property="education" column="education" jdbcType="INTEGER"/>
-            <result property="majorId" column="majorId" jdbcType="BIGINT"/>
-            <result property="schoolId" column="schoolId" jdbcType="BIGINT"/>
-            <result property="positionIds" column="industryIds" jdbcType="VARCHAR"/>
+            <result property="industryIds" column="industryIds" jdbcType="VARCHAR"/>
             <result property="graduateYear" column="graduateYear" jdbcType="INTEGER"/>
             <result property="jobStatus" column="jobStatus" jdbcType="TINYINT"/>
             <result property="salaryExpectation" column="salaryExpectation" jdbcType="VARCHAR"/>
@@ -27,7 +25,7 @@
     <sql id="Base_Column_List">
         id,userId,gender,
         age,skillTag,education,
-        majorId,schoolId,positionIds,
+        majorId,schoolId,industryIds,
         graduateYear,jobStatus,salaryExpectation,
         biography,address,createTime,
         updateTime,isDelete

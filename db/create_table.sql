@@ -31,8 +31,6 @@ create table if not exists employee
     age               int          default 20                not null comment '年龄',
     skillTag          varchar(512)                           not null comment '技能标签',
     education         int          default 1                 not null comment '最高学历',
-    majorId           bigint                                 not null comment '专业id',
-    schoolId          bigint                                 not null comment '学校id',
     industryIds       varchar(1024)                          not null comment '行业期望',
     graduateYear      int                                    not null comment '毕业年份',
     jobStatus         tinyint                                not null comment '求职状态',
@@ -106,3 +104,30 @@ create table if not exists industry
     updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete     tinyint  default 0                 not null comment '是否删除'
 ) comment '专业' collate = utf8mb4_unicode_ci;
+
+-- 行业类型表
+create table if not exists industry_type
+(
+    id               bigint auto_increment comment 'id' primary key,
+    industryTypeName varchar(256)                       not null comment '行业类型名称',
+    postNum          int      default 0                 not null comment '相关数量',
+    createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete         tinyint  default 0                 not null comment '是否删除'
+) comment '行业类型' collate = utf8mb4_unicode_ci;
+
+-- 教育经历表
+create table if not exists education_experience
+(
+    id            bigint auto_increment comment 'id' primary key,
+    educationId   bigint                             not null comment '学校id',
+    educationType tinyint                            not null comment '学历类型',
+    beginYear     int                                not null comment '开始年份',
+    endYear       int                                not null comment '结束年份',
+    majorId       bigint                             not null comment '专业id',
+    activity      text                               null comment '在校经历',
+    postNum       int      default 0                 not null comment '相关数量',
+    createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete      tinyint  default 0                 not null comment '是否删除'
+)

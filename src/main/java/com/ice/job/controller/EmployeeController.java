@@ -4,7 +4,7 @@ import com.ice.job.common.BaseResponse;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.common.ResultUtils;
 import com.ice.job.exception.BusinessException;
-import com.ice.job.model.request.employee.EmployeeRegisterRequest;
+import com.ice.job.model.request.employee.EmployeeUpdateRequest;
 import com.ice.job.service.EmployeeService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +31,7 @@ public class EmployeeController {
      * @return 用户id
      */
     @PostMapping("/update")
-    public BaseResponse<Long> employUpdate(@RequestBody EmployeeRegisterRequest registerRequest) {
+    public BaseResponse<Long> employUpdate(@RequestBody EmployeeUpdateRequest registerRequest) {
         if (registerRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "注册信息为空");
         }

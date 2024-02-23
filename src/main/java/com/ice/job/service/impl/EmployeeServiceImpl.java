@@ -1,7 +1,5 @@
 package com.ice.job.service.impl;
 
-import java.util.Date;
-
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
@@ -13,7 +11,7 @@ import com.ice.job.model.entity.*;
 import com.ice.job.model.enums.EducationEnum;
 import com.ice.job.model.enums.GenderEnum;
 import com.ice.job.model.enums.JobStatusEnum;
-import com.ice.job.model.request.employee.EmployeeRegisterRequest;
+import com.ice.job.model.request.employee.EmployeeUpdateRequest;
 import com.ice.job.service.EmployeeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -36,17 +34,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     @Resource
     private UserMapper userMapper;
 
-    @Resource
-    private MajorMapper majorMapper;
-
-    @Resource
-    private SchoolMapper schoolMapper;
-    
-    @Resource
-    private IndustryMapper industryMapper;
-
     @Override
-    public Long employUpdate(EmployeeRegisterRequest registerRequest) {
+    public Long employUpdate(EmployeeUpdateRequest registerRequest) {
         // 1. 校验注册信息
         Employee employee = new Employee();
         BeanUtils.copyProperties(registerRequest, employee);
@@ -100,20 +89,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         if (education != null && !EducationEnum.getIntegerValues().contains(education)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "学历水平错误!");
         }
-
-        // 4. 判断专业
-        Long majorId = employee.getMajorId();
-        ThrowUtils.throwIf(majorId == null || majorId <= 0, ErrorCode.PARAMS_ERROR, "专业id错误！");
-        Long count = majorMapper.selectCount(Wrappers.<Major>lambdaQuery()
-                .eq(Major::getId, majorId));
-        ThrowUtils.throwIf(count <= 0, ErrorCode.NOT_FOUND_ERROR, "专业不存在");
-
-        // 5. 判断学校
-        Long schoolId = employee.getSchoolId();
-        ThrowUtils.throwIf(schoolId == null || schoolId <= 0, ErrorCode.PARAMS_ERROR, "学校id错误！");
-        count = schoolMapper.selectCount(Wrappers.<School>lambdaQuery()
-                .eq(School::getId, majorId));
-        ThrowUtils.throwIf(count <= 0, ErrorCode.NOT_FOUND_ERROR, "学校不存在");
 
         // 6. 判断毕业年份
         Integer graduateYear = employee.getGraduateYear();
