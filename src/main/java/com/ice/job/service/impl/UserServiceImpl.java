@@ -93,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String userJSON = GSON.toJson(userLoginVO);
 
         // 7.3 储存
-        stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.SECONDS);
 
         return userLoginVO;
     }
@@ -176,7 +176,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         BeanUtils.copyProperties(newUser, userLoginVO);
         String userJSON = GSON.toJson(userLoginVO);
         // 3.2 修改参数
-        stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.SECONDS);
 
         return user.getId();
     }

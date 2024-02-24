@@ -35,6 +35,16 @@ public class Employee implements Serializable {
     private Integer age;
 
     /**
+     * 个人优势
+     */
+    private String advantage;
+
+    /**
+     * 技能证书
+     */
+    private String qualificationIds;
+
+    /**
      * 技能标签
      */
     private String skillTag;

@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ice.job.common.ErrorCode;
+import com.ice.job.constant.CacheConstant;
 import com.ice.job.constant.CommonConstant;
 import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
 import com.ice.job.exception.ThrowUtils;
+import com.ice.job.mapper.EducationExperienceMapper;
 import com.ice.job.mapper.MajorMapper;
 import com.ice.job.mapper.SchoolMapper;
 import com.ice.job.model.entity.EducationExperience;
@@ -17,18 +19,17 @@ import com.ice.job.model.entity.School;
 import com.ice.job.model.enums.EducationEnum;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
+import com.ice.job.model.request.education.EducationUpdateRequest;
 import com.ice.job.model.vo.EducationVO;
 import com.ice.job.service.EducationExperienceService;
-import com.ice.job.mapper.EducationExperienceMapper;
 import com.ice.job.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,9 @@ import java.util.stream.Collectors;
 @Service
 public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperienceMapper, EducationExperience>
         implements EducationExperienceService {
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private SchoolMapper schoolMapper;
@@ -61,7 +65,9 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
         // 插入教育经历信息
         baseMapper.insert(education);
 
-        // todo 删除缓存中应聘者信息
+        // 删除缓存中应聘者信息
+        stringRedisTemplate.delete(CacheConstant.USER_EMPLOYEE_KEY + userId);
+
         return education.getId();
     }
 
@@ -107,6 +113,30 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "删除失败，该教育经历不存在或操作失败！");
         }
 
+        // 删除缓存中应聘者信息
+        Long userId = UserHolder.getUser().getId();
+        stringRedisTemplate.delete(CacheConstant.USER_EMPLOYEE_KEY + userId);
+
+        return true;
+    }
+
+    @Override
+    public boolean updateEducation(EducationUpdateRequest educationUpdateRequest) {
+        // 判断是否存在
+        boolean exists = baseMapper.exists(Wrappers.<EducationExperience>lambdaQuery()
+                .eq(EducationExperience::getId, educationUpdateRequest.getId()));
+        ThrowUtils.throwIf(!exists, ErrorCode.NOT_FOUND_ERROR, "教育经历不存在！");
+
+        // 校验参数
+        EducationExperience education = new EducationExperience();
+        BeanUtils.copyProperties(educationUpdateRequest, education);
+        validEducation(education);
+
+        // 删除缓存内容
+        Long userId = UserHolder.getUser().getId();
+        stringRedisTemplate.delete(CacheConstant.USER_EMPLOYEE_KEY + userId);
+
+        // 更新数据库
         return true;
     }
 
@@ -181,6 +211,12 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
         ThrowUtils.throwIf(!existMajor, ErrorCode.NOT_FOUND_ERROR, "专业信息不存在");
     }
 
+    /**
+     * 拼接查询条件
+     *
+     * @param educationQueryRequest 查询条件
+     * @return QueryWrapper
+     */
     private QueryWrapper<EducationExperience> getQueryWrapper(EducationQueryRequest educationQueryRequest) {
         QueryWrapper<EducationExperience> queryWrapper = new QueryWrapper<>();
 

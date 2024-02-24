@@ -28,6 +28,16 @@ public class EmployeeUpdateRequest implements Serializable {
     private Integer age;
 
     /**
+     * 个人优势
+     */
+    private String advantage;
+
+    /**
+     * 资格证书列表
+     */
+    private List<Long> qualificationIdList;
+
+    /**
      * 技能标签
      */
     private List<String> skillTagList;

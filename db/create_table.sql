@@ -29,6 +29,8 @@ create table if not exists employee
     userId            bigint                                 not null comment '用户id',
     gender            tinyint      default 0                 not null comment '性别（0 - 女 1 - 男）',
     age               int          default 20                not null comment '年龄',
+    advantage         text                                   null comment '个人优势',
+    qualificationIds  varchar(1024)                          null comment '资格证书',
     skillTag          varchar(512)                           not null comment '技能标签',
     education         int          default 1                 not null comment '最高学历',
     industryIds       varchar(1024)                          not null comment '行业期望',
@@ -133,3 +135,14 @@ create table if not exists education_experience
     isDelete      tinyint  default 0                 not null comment '是否删除',
     index idx_userId (userId)
 ) comment '教育经历' collate = utf8mb4_unicode_ci;
+
+-- 资格证书表
+create table if not exists qualification
+(
+    id                bigint auto_increment comment 'id' primary key,
+    qualificationName varchar(256)                       not null comment '资格证书名称',
+    qualificationType int                                not null comment '资格证书类型',
+    createTime        datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime        datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete          tinyint  default 0                 not null comment '是否删除'
+) comment '资格证书' collate = utf8mb4_unicode_ci;

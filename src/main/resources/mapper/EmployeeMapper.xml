@@ -9,6 +9,8 @@
             <result property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="gender" column="gender" jdbcType="TINYINT"/>
             <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="advantage" column="advantage" jdbcType="VARCHAR"/>
+            <result property="qualificationIds" column="qualificationIds" jdbcType="VARCHAR"/>
             <result property="skillTag" column="skillTag" jdbcType="VARCHAR"/>
             <result property="education" column="education" jdbcType="INTEGER"/>
             <result property="industryIds" column="industryIds" jdbcType="VARCHAR"/>
@@ -24,7 +26,7 @@
 
     <sql id="Base_Column_List">
         id,userId,gender,
-        age,skillTag,education,
+        age,advantage,qualificationIds,skillTag,education,
         majorId,schoolId,industryIds,
         graduateYear,jobStatus,salaryExpectation,
         biography,address,createTime,

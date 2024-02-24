@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.EmployeeExperienceMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.EmployeeExperience">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="experienceName" column="experienceName" jdbcType="VARCHAR"/>
+            <result property="beginTime" column="beginTime" jdbcType="VARCHAR"/>
+            <result property="endTime" column="endTime" jdbcType="VARCHAR"/>
+            <result property="jobRole" column="jobRole" jdbcType="VARCHAR"/>
+            <result property="experienceDescript" column="experienceDescript" jdbcType="VARCHAR"/>
+            <result property="experienceType" column="experienceType" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,userId,experienceName,
+        beginTime,endTime,jobRole,
+        experienceDescript,experienceType,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>

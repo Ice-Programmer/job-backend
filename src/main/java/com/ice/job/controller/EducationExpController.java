@@ -9,6 +9,7 @@ import com.ice.job.exception.BusinessException;
 import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
+import com.ice.job.model.request.education.EducationUpdateRequest;
 import com.ice.job.model.vo.EducationVO;
 import com.ice.job.service.EducationExperienceService;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,23 @@ public class EducationExpController {
         }
 
         boolean result = educationExperienceService.deleteEducation(id);
+
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 更新教育经历接口
+     *
+     * @param educationUpdateRequest 教育经历参数
+     * @return 更新结果
+     */
+    @PostMapping("/update")
+    public BaseResponse<Boolean> updateEducation(@RequestBody EducationUpdateRequest educationUpdateRequest) {
+        if (educationUpdateRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "教育经历更新参数为空");
+        }
+
+        boolean result = educationExperienceService.updateEducation(educationUpdateRequest);
 
         return ResultUtils.success(result);
     }

@@ -5,13 +5,14 @@ import com.ice.job.model.entity.EducationExperience;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
+import com.ice.job.model.request.education.EducationUpdateRequest;
 import com.ice.job.model.vo.EducationVO;
 
 /**
-* @author chenjiahan
-* @description 针对表【education_experience】的数据库操作Service
-* @createDate 2024-02-23 18:36:24
-*/
+ * @author chenjiahan
+ * @description 针对表【education_experience】的数据库操作Service
+ * @createDate 2024-02-23 18:36:24
+ */
 public interface EducationExperienceService extends IService<EducationExperience> {
 
     /**
@@ -39,10 +40,18 @@ public interface EducationExperienceService extends IService<EducationExperience
     Page<EducationVO> pageEducation(EducationQueryRequest educationQueryRequest);
 
     /**
-     * 删除教育经历接口
+     * 删除教育经历
      *
      * @param id 教育 id
      * @return 删除结果
      */
     boolean deleteEducation(Long id);
+
+    /**
+     * 更新教育经历
+     *
+     * @param educationUpdateRequest 教育经历参数
+     * @return 更新结果
+     */
+    boolean updateEducation(EducationUpdateRequest educationUpdateRequest);
 }
