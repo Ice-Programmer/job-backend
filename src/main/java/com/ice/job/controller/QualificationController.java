@@ -2,11 +2,11 @@ package com.ice.job.controller;
 
 import com.ice.job.common.BaseResponse;
 import com.ice.job.common.ResultUtils;
+import com.ice.job.model.request.qualification.QualificationEmployeeUpdateRequest;
 import com.ice.job.model.vo.QualificationVO;
 import com.ice.job.service.QualificationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,5 +33,20 @@ public class QualificationController {
         List<QualificationVO> qualificationList = qualificationService.getQualificationList();
 
         return ResultUtils.success(qualificationList);
+    }
+
+    /**
+     * 应聘者更新资格证书
+     *
+     * @param qualificationEmployeeUpdateRequest 资格证书 id 列表
+     * @return 处理结果
+     */
+    @PostMapping("/employee/update")
+    public BaseResponse<Boolean> updateEmployeeQualification(@RequestBody QualificationEmployeeUpdateRequest qualificationEmployeeUpdateRequest) {
+        List<Long> qualificationIdList = qualificationEmployeeUpdateRequest.getQualificationIdList();
+
+        boolean result = qualificationService.updateEmployeeQualification(qualificationIdList);
+
+        return ResultUtils.success(result);
     }
 }

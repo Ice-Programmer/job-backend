@@ -19,4 +19,12 @@ public interface QualificationService extends IService<Qualification> {
      * @return 资格证书列表
      */
     List<QualificationVO> getQualificationList();
+
+    /**
+     * 应聘者更新资格证书
+     *
+     * @param qualificationIdList 资格证书 id 列表
+     * @return 处理结果
+     */
+    boolean updateEmployeeQualification(List<Long> qualificationIdList);
 }

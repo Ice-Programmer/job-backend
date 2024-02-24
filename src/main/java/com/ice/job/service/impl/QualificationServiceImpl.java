@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.ice.job.constant.CacheConstant;
+import com.ice.job.constant.UserHolder;
+import com.ice.job.mapper.EmployeeMapper;
+import com.ice.job.model.entity.Employee;
 import com.ice.job.model.enums.QualificationTypeEnum;
 import com.ice.job.model.vo.QualificationVO;
 import com.ice.job.service.QualificationService;
@@ -34,6 +37,9 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationMapper, Q
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private EmployeeMapper employeeMapper;
 
 
     @Override
@@ -90,6 +96,16 @@ public class QualificationServiceImpl extends ServiceImpl<QualificationMapper, Q
         );
 
         return qualificationVOList;
+    }
+
+    @Override
+    public boolean updateEmployeeQualification(List<Long> qualificationIdList) {
+        String idListJSON = GSON.toJson(qualificationIdList);
+        Long userId = UserHolder.getUser().getId();
+        employeeMapper.update(null, Wrappers.<Employee>lambdaUpdate()
+                .eq(Employee::getUserId, userId)
+                .set(Employee::getQualificationIds, idListJSON));
+        return true;
     }
 
     /**
