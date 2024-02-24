@@ -65,9 +65,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         String industryIdsJSON = GSON.toJson(industryIdLIst);
         employee.setIndustryIds(industryIdsJSON);
 
-        // 资格证书
-
-
         // 插入数据库
         baseMapper.insert(employee);
 
