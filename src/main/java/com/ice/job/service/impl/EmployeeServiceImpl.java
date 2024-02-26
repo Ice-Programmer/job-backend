@@ -17,8 +17,6 @@ import com.ice.job.model.enums.GenderEnum;
 import com.ice.job.model.enums.JobStatusEnum;
 import com.ice.job.model.request.employee.EmployeeUpdateRequest;
 import com.ice.job.service.EmployeeService;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;

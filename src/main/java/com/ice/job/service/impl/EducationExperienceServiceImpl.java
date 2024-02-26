@@ -137,6 +137,7 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
         stringRedisTemplate.delete(CacheConstant.USER_EMPLOYEE_KEY + userId);
 
         // 更新数据库
+        baseMapper.updateById(education);
         return true;
     }
 
@@ -236,9 +237,9 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
         if (!CollectionUtils.isEmpty(ids)) {
             queryWrapper.in("id", id);
         }
-        queryWrapper.eq(ObjectUtils.isNotEmpty(schoolId), "schoolId", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(majorId), "majorId", id);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", id);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(schoolId), "schoolId", schoolId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(majorId), "majorId", majorId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq("isDelete", false);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);

@@ -129,6 +129,7 @@ public class EmployeeExperienceServiceImpl extends ServiceImpl<EmployeeExperienc
         stringRedisTemplate.delete(CacheConstant.USER_EMPLOYEE_KEY + userId);
 
         // 更新数据库
+        baseMapper.updateById(experience);
         return true;
     }
 
@@ -207,7 +208,7 @@ public class EmployeeExperienceServiceImpl extends ServiceImpl<EmployeeExperienc
             queryWrapper.eq("experienceType", experienceType);
         }
 
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", id);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq("isDelete", false);
         queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
                 sortField);

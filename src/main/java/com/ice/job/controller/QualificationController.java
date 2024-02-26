@@ -5,7 +5,6 @@ import com.ice.job.common.ResultUtils;
 import com.ice.job.model.request.qualification.QualificationEmployeeUpdateRequest;
 import com.ice.job.model.vo.QualificationVO;
 import com.ice.job.service.QualificationService;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
