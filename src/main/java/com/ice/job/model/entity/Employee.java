@@ -72,11 +72,6 @@ public class Employee implements Serializable {
     private String biography;
 
     /**
-     * 居住城市
-     */
-    private Long cityId;
-
-    /**
      * 创建时间
      */
     private Date createTime;

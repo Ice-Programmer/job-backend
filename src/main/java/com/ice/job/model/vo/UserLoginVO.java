@@ -32,7 +32,7 @@ public class UserLoginVO {
     /**
      * 城市id
      */
-    private Integer cityId;
+    private Long cityId;
 
     /**
      * 登录 token 值

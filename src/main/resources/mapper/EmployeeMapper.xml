@@ -16,7 +16,6 @@
             <result property="graduateYear" column="graduateYear" jdbcType="INTEGER"/>
             <result property="jobStatus" column="jobStatus" jdbcType="TINYINT"/>
             <result property="biography" column="biography" jdbcType="VARCHAR"/>
-            <result property="cityId" column="cityId" jdbcType="VARCHAR"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
@@ -27,7 +26,7 @@
         age,advantage,qualificationIds,skillTag,education,
         majorId,schoolId,
         graduateYear,jobStatus,
-        biography,cityId,createTime,
+        biography,createTime,
         updateTime,isDelete
     </sql>
 </mapper>

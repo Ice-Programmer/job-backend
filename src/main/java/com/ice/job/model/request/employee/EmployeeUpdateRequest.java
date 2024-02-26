@@ -53,19 +53,9 @@ public class EmployeeUpdateRequest implements Serializable {
     private Integer jobStatus;
 
     /**
-     * 薪水要求（例如：10-15）
-     */
-    private String salaryExpectation;
-
-    /**
      * 简历地址
      */
     private String biography;
-
-    /**
-     * 居住城市
-     */
-    private Long cityId;
 
     private static final long serialVersionUID = 1L;
 }

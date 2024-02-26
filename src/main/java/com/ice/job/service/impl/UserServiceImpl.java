@@ -12,6 +12,8 @@ import com.ice.job.constant.UserConstant;
 import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
 import com.ice.job.exception.ThrowUtils;
+import com.ice.job.mapper.CityMapper;
+import com.ice.job.model.entity.City;
 import com.ice.job.model.entity.User;
 import com.ice.job.model.request.user.UserLoginRequest;
 import com.ice.job.model.request.user.UserRegisterRequest;
@@ -49,6 +51,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    private CityMapper cityMapper;
+
     /**
      * 盐值，混淆密码
      */
@@ -70,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = baseMapper.selectOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getUserAccount, userAccount)
                 .eq(User::getUserPassword, encryptPassword)
-                .select(User::getId, User::getUserName, User::getUserAvatar, User::getUserRole)
+                .select(User::getId, User::getUserName, User::getUserAvatar, User::getUserRole, User::getCityId)
                 .last("limit 1"));
 
         // 用户不存在
@@ -103,6 +108,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
+        Long cityId = userRegisterRequest.getCityId();
         String userRole = userRegisterRequest.getUserRole();
 
         // 校验空值
@@ -123,6 +129,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (!Objects.equals(checkPassword, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "两次密码不一致");
         }
+
+        // 4. 校验城市
+        validCity(cityId);
+
 
         synchronized (userAccount.intern()) {
             // 账户不能重复
@@ -165,16 +175,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         // 3. 修改缓存
         // 3.1 取出 token
-        String token = UserHolder.getUser().getToken();
+        UserLoginVO loginUser = UserHolder.getUser();
+        String token = loginUser.getToken();
         ThrowUtils.throwIf(StringUtils.isBlank(token), ErrorCode.NOT_LOGIN_ERROR);
         // 3.2 查出最新数据
         User newUser = baseMapper.selectOne(Wrappers.<User>lambdaQuery()
                 .eq(User::getId, user.getId())
-                .select(User::getId, User::getUserName, User::getUserAvatar, User::getUserRole)
+                .select(User::getId, User::getUserName, User::getUserAvatar, User::getUserRole, User::getCityId)
                 .last("limit 1"));
         UserLoginVO userLoginVO = new UserLoginVO();
         BeanUtils.copyProperties(newUser, userLoginVO);
+        userLoginVO.setToken(token);
         String userJSON = GSON.toJson(userLoginVO);
+
         // 3.2 修改参数
         stringRedisTemplate.opsForValue().set(LOGIN_USER_KEY + token, userJSON, LOGIN_USER_TTL, TimeUnit.SECONDS);
 
@@ -238,6 +251,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (StringUtils.isBlank(userAvatar)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "头像为空");
         }
+
+        // 5. 校验城市
+        Long cityId = user.getCityId();
+        validCity(cityId);
+
     }
 
 
@@ -266,6 +284,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return randomAvatar;
     }
 
+    /**
+     * 校验城市是否存在
+     * @param cityId 城市id
+     */
+    private void validCity(Long cityId) {
+        if (cityId == null || cityId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "所在城市为空");
+        }
+        boolean exists = cityMapper.exists(Wrappers.<City>lambdaQuery()
+                .eq(City::getId, cityId));
+        ThrowUtils.throwIf(!exists, ErrorCode.NOT_FOUND_ERROR, "城市信息不存在");
+    }
 }
 
 

@@ -43,6 +43,11 @@ public class UserUpdateRequest implements Serializable {
      */
     private String userAvatar;
 
+    /**
+     * 城市id
+     */
+    private Long cityId;
+
     private static final long serialVersionUID = 967025824012055223L;
 
 }

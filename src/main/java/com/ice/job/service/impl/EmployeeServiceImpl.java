@@ -105,10 +105,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "工作状态错误");
         }
 
-        // 8. 判断地址
-        Long cityId = employee.getCityId();
-        ThrowUtils.throwIf(ObjectUtils.isEmpty(cityId), ErrorCode.PARAMS_ERROR, "地址为空!");
-
         // 9. 个人优势
         String advantage = employee.getAdvantage();
         if (advantage != null && advantage.length() >= 2000) {

@@ -12,6 +12,7 @@
             <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="userName" column="userName" jdbcType="VARCHAR"/>
             <result property="userAvatar" column="userAvatar" jdbcType="VARCHAR"/>
+            <result property="cityId" column="cityId" jdbcType="BIGINT"/>
             <result property="userRole" column="userRole" jdbcType="VARCHAR"/>
             <result property="lastActive" column="lastActive" jdbcType="INTEGER"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
@@ -21,7 +22,7 @@
 
     <sql id="Base_Column_List">
         id,userAccount,userPassword,
-        userPhone,email,userName,userAvatar,
+        userPhone,email,userName,userAvatar,cityId,
         userRole,lastActive,createTime,
         updateTime,isDelete
     </sql>

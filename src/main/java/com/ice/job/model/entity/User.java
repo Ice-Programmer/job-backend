@@ -50,6 +50,11 @@ public class User implements Serializable {
     private String userAvatar;
 
     /**
+     * 城市id
+     */
+    private Long cityId;
+
+    /**
      * 用户角色：employee/employer/admin
      */
     private String userRole;

@@ -25,6 +25,11 @@ public class UserRegisterRequest {
     private String checkPassword;
 
     /**
+     * 城市id
+     */
+    private Long cityId;
+
+    /**
      * 用户身份
      */
     private String userRole;
