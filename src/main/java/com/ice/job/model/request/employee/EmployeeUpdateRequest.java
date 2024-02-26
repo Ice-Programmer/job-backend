@@ -43,11 +43,6 @@ public class EmployeeUpdateRequest implements Serializable {
     private Integer education;
 
     /**
-     * 行业期望
-     */
-    private List<Long> industryIdLIst;
-
-    /**
      * 毕业年份
      */
     private Integer graduateYear;
@@ -68,9 +63,9 @@ public class EmployeeUpdateRequest implements Serializable {
     private String biography;
 
     /**
-     * 居住地（省-市-区）
+     * 居住城市
      */
-    private String address;
+    private Long cityId;
 
     private static final long serialVersionUID = 1L;
 }

@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import lombok.Data;
 
 /**
  * 应聘者
+ *
  * @TableName employee
  */
-@TableName(value ="employee")
+@TableName(value = "employee")
 @Data
 public class Employee implements Serializable {
     /**
@@ -55,11 +57,6 @@ public class Employee implements Serializable {
     private Integer education;
 
     /**
-     * 行业期望
-     */
-    private String industryIds;
-
-    /**
      * 毕业年份
      */
     private Integer graduateYear;
@@ -70,19 +67,14 @@ public class Employee implements Serializable {
     private Integer jobStatus;
 
     /**
-     * 薪水要求（例如：10-15）
-     */
-    private String salaryExpectation;
-
-    /**
      * 简历地址
      */
     private String biography;
 
     /**
-     * 居住地（省-市-区）
+     * 居住城市
      */
-    private String address;
+    private Long cityId;
 
     /**
      * 创建时间

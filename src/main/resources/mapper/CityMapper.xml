@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.CityMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.City">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="cityName" column="cityName" jdbcType="VARCHAR"/>
+            <result property="provinceType" column="provinceType" jdbcType="BIGINT"/>
+            <result property="postNum" column="postNum" jdbcType="INTEGER"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,cityName,provinceType,
+        postNum,createTime,updateTime,
+        isDelete
+    </sql>
+</mapper>

@@ -25,23 +25,21 @@ create table if not exists user
 -- 应聘者表
 create table if not exists employee
 (
-    id                bigint auto_increment comment 'id' primary key,
-    userId            bigint                                 not null comment '用户id',
-    gender            tinyint      default 0                 not null comment '性别（0 - 女 1 - 男）',
-    age               int          default 20                not null comment '年龄',
-    advantage         text                                   null comment '个人优势',
-    qualificationIds  varchar(1024)                          null comment '资格证书',
-    skillTag          varchar(512)                           not null comment '技能标签',
-    education         int          default 1                 not null comment '最高学历',
-    industryIds       varchar(1024)                          not null comment '行业期望',
-    graduateYear      int                                    not null comment '毕业年份',
-    jobStatus         tinyint                                not null comment '求职状态',
-    salaryExpectation varchar(256) default '-'               not null comment '薪水要求（例如：10-15）',
-    biography         varchar(1024)                          null comment '简历地址',
-    address           varchar(1024)                          not null comment '居住地（省-市-区）',
-    createTime        datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
-    updateTime        datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    isDelete          tinyint      default 0                 not null comment '是否删除',
+    id               bigint auto_increment comment 'id' primary key,
+    userId           bigint                             not null comment '用户id',
+    gender           tinyint  default 0                 not null comment '性别（0 - 女 1 - 男）',
+    age              int      default 20                not null comment '年龄',
+    advantage        text                               null comment '个人优势',
+    qualificationIds varchar(1024)                      null comment '资格证书',
+    skillTag         varchar(512)                       not null comment '技能标签',
+    education        int      default 1                 not null comment '最高学历',
+    graduateYear     int                                not null comment '毕业年份',
+    jobStatus        tinyint                            not null comment '求职状态',
+    biography        varchar(1024)                      null comment '简历地址',
+    cityId           bigint                             not null comment '居住地',
+    createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete         tinyint  default 0                 not null comment '是否删除',
     index idx_userId (userId)
 ) comment '应聘者' collate = utf8mb4_unicode_ci;
 
@@ -93,7 +91,7 @@ create table if not exists school
     createTime datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete   tinyint  default 0                 not null comment '是否删除'
-) comment '专业' collate = utf8mb4_unicode_ci;
+) comment '学校' collate = utf8mb4_unicode_ci;
 
 -- 行业表
 create table if not exists industry
@@ -105,7 +103,7 @@ create table if not exists industry
     createTime   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete     tinyint  default 0                 not null comment '是否删除'
-) comment '专业' collate = utf8mb4_unicode_ci;
+) comment '行业' collate = utf8mb4_unicode_ci;
 
 -- 行业类型表
 create table if not exists industry_type
@@ -146,3 +144,63 @@ create table if not exists qualification
     updateTime        datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete          tinyint  default 0                 not null comment '是否删除'
 ) comment '资格证书' collate = utf8mb4_unicode_ci;
+
+-- 职业表
+create table if not exists position
+(
+    id               bigint auto_increment comment 'id' primary key,
+    positionName     varchar(256)                       not null comment '职业名称',
+    positionDescript varchar(1024)                      null comment '职业介绍',
+    positionType     int                                not null comment '职业类型',
+    postNum          int      default 0                 not null comment '相关数量',
+    createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete         tinyint  default 0                 not null comment '是否删除'
+) comment '职业' collate = utf8mb4_unicode_ci;
+
+-- 职业类型表
+create table if not exists position_type
+(
+    id               bigint auto_increment comment 'id' primary key,
+    positionTypeName varchar(256)                       not null comment '职业类型名称',
+    postNum          int      default 0                 not null comment '相关数量',
+    createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete         tinyint  default 0                 not null comment '是否删除'
+) comment '职业类型表' collate = utf8mb4_unicode_ci;
+
+-- 应聘者期望岗位
+create table if not exists employee_wish_career
+(
+    id                bigint auto_increment comment 'id' primary key,
+    userId            bigint                                 not null comment '用户id',
+    positionId        bigint                                 not null comment '职业id',
+    industryId        bigint       default 0                 not null comment '行业id',
+    salaryExpectation varchar(256) default '-'               not null comment '薪水要求（例如：10-15）',
+    cityId            bigint                                 not null comment '工作城市',
+    createTime        datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime        datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete          tinyint      default 0                 not null comment '是否删除'
+);
+
+-- 城市表
+create table if not exists city
+(
+    id           bigint auto_increment comment 'id' primary key,
+    cityName     varchar(128)                       not null comment '城市名称',
+    provinceType int                                not null comment '省份类型',
+    postNum      int      default 0                 not null comment '相关数量',
+    createTime   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete     tinyint  default 0                 not null comment '是否删除'
+) comment '城市' collate = utf8mb4_unicode_ci;;
+
+-- 省份类型
+create table if not exists province_type
+(
+    id           bigint auto_increment comment 'id' primary key,
+    provinceName varchar(128)                       not null comment '省份名称',
+    createTime   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete     tinyint  default 0                 not null comment '是否删除'
+) comment '省份类型' collate = utf8mb4_unicode_ci;

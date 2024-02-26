@@ -30,6 +30,11 @@ public class UserLoginVO {
     private String userRole;
 
     /**
+     * 城市id
+     */
+    private Integer cityId;
+
+    /**
      * 登录 token 值
      */
     private String token;

@@ -13,12 +13,10 @@
             <result property="qualificationIds" column="qualificationIds" jdbcType="VARCHAR"/>
             <result property="skillTag" column="skillTag" jdbcType="VARCHAR"/>
             <result property="education" column="education" jdbcType="INTEGER"/>
-            <result property="industryIds" column="industryIds" jdbcType="VARCHAR"/>
             <result property="graduateYear" column="graduateYear" jdbcType="INTEGER"/>
             <result property="jobStatus" column="jobStatus" jdbcType="TINYINT"/>
-            <result property="salaryExpectation" column="salaryExpectation" jdbcType="VARCHAR"/>
             <result property="biography" column="biography" jdbcType="VARCHAR"/>
-            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="cityId" column="cityId" jdbcType="VARCHAR"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
@@ -27,9 +25,9 @@
     <sql id="Base_Column_List">
         id,userId,gender,
         age,advantage,qualificationIds,skillTag,education,
-        majorId,schoolId,industryIds,
-        graduateYear,jobStatus,salaryExpectation,
-        biography,address,createTime,
+        majorId,schoolId,
+        graduateYear,jobStatus,
+        biography,cityId,createTime,
         updateTime,isDelete
     </sql>
 </mapper>

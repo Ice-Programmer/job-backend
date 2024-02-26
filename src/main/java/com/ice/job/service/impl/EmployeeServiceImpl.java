@@ -17,6 +17,7 @@ import com.ice.job.model.enums.GenderEnum;
 import com.ice.job.model.enums.JobStatusEnum;
 import com.ice.job.model.request.employee.EmployeeUpdateRequest;
 import com.ice.job.service.EmployeeService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -56,14 +57,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         }
         String skillTagJSON = GSON.toJson(skillTagList);
         employee.setSkillTag(skillTagJSON);
-
-        // 行业期望
-        List<Long> industryIdLIst = registerRequest.getIndustryIdLIst();
-        if (industryIdLIst.isEmpty() || industryIdLIst.size() > 3) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "行业技能至少 1 个，最多选择 3 个");
-        }
-        String industryIdsJSON = GSON.toJson(industryIdLIst);
-        employee.setIndustryIds(industryIdsJSON);
 
         // 插入数据库
         baseMapper.insert(employee);
@@ -113,8 +106,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         }
 
         // 8. 判断地址
-        String address = employee.getAddress();
-        ThrowUtils.throwIf(StringUtils.isEmpty(address), ErrorCode.PARAMS_ERROR, "地址为空!");
+        Long cityId = employee.getCityId();
+        ThrowUtils.throwIf(ObjectUtils.isEmpty(cityId), ErrorCode.PARAMS_ERROR, "地址为空!");
 
         // 9. 个人优势
         String advantage = employee.getAdvantage();

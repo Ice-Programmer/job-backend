@@ -23,4 +23,10 @@ public interface CacheConstant {
      */
     String EMPLOYEE_QUALIFICATION_KEY = "employee:qualification:list";
     Long EMPLOYEE_QUALIFICATION_TTL = 30 * 24 * 60 * 60L;    // 30 day
+
+    /**
+     * 城市类型
+     */
+    String CITY_LIST_KEY = "others:city:list";
+    Long CITY_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
 }
