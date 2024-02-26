@@ -9,12 +9,12 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 职业
- * @TableName position
+ * 职业类型表
+ * @TableName position_type
  */
-@TableName(value ="position")
+@TableName(value ="position_type")
 @Data
-public class Position implements Serializable {
+public class PositionType implements Serializable {
     /**
      * id
      */
@@ -22,19 +22,9 @@ public class Position implements Serializable {
     private Long id;
 
     /**
-     * 职业名称
+     * 职业类型名称
      */
-    private String positionName;
-
-    /**
-     * 职业介绍
-     */
-    private String positionDescript;
-
-    /**
-     * 职业类型
-     */
-    private Long positionType;
+    private String positionTypeName;
 
     /**
      * 相关数量

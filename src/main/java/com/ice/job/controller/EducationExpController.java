@@ -10,7 +10,7 @@ import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
 import com.ice.job.model.request.education.EducationUpdateRequest;
-import com.ice.job.model.vo.EducationVO;
+import com.ice.job.model.vo.EmployeeEducationVO;
 import com.ice.job.service.EducationExperienceService;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,14 +51,14 @@ public class EducationExpController {
      * @return 教育经历
      */
     @GetMapping("/get/{educationId}")
-    public BaseResponse<EducationVO> getEducation(@PathVariable Long educationId) {
+    public BaseResponse<EmployeeEducationVO> getEducation(@PathVariable Long educationId) {
         if (educationId == null || educationId <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "教育经历 id 为空");
         }
 
-        EducationVO educationVO = educationExperienceService.getEducation(educationId);
+        EmployeeEducationVO employeeEducationVO = educationExperienceService.getEducation(educationId);
 
-        return ResultUtils.success(educationVO);
+        return ResultUtils.success(employeeEducationVO);
     }
 
     /**
@@ -103,12 +103,12 @@ public class EducationExpController {
      * @return 教育经历分页
      */
     @PostMapping("/page")
-    public BaseResponse<Page<EducationVO>> pageEducation(@RequestBody EducationQueryRequest educationQueryRequest) {
+    public BaseResponse<Page<EmployeeEducationVO>> pageEducation(@RequestBody EducationQueryRequest educationQueryRequest) {
         long size = educationQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
 
-        Page<EducationVO> educationVOPage = educationExperienceService.pageEducation(educationQueryRequest);
+        Page<EmployeeEducationVO> educationVOPage = educationExperienceService.pageEducation(educationQueryRequest);
 
         return ResultUtils.success(educationVOPage);
     }

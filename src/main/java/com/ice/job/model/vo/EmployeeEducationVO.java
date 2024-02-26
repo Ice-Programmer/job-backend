@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 教育经历 VO
  */
 @Data
-public class EducationVO implements Serializable {
+public class EmployeeEducationVO implements Serializable {
 
     /**
      * id

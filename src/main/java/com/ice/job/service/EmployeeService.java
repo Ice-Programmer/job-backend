@@ -3,6 +3,7 @@ package com.ice.job.service;
 import com.ice.job.model.entity.Employee;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ice.job.model.request.employee.EmployeeUpdateRequest;
+import com.ice.job.model.vo.EmployeeVO;
 
 /**
 * @author chenjiahan
@@ -18,4 +19,12 @@ public interface EmployeeService extends IService<Employee> {
      * @return 用户id
      */
     Long employUpdate(EmployeeUpdateRequest registerRequest);
+
+    /**
+     * 获取应聘者信息
+     *
+     * @param userId 用户id
+     * @return 应聘者信息
+     */
+    EmployeeVO getEmployeeById(Long userId);
 }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
 import com.ice.job.model.request.education.EducationUpdateRequest;
-import com.ice.job.model.vo.EducationVO;
+import com.ice.job.model.vo.EmployeeEducationVO;
 
 /**
  * @author chenjiahan
@@ -29,7 +29,7 @@ public interface EducationExperienceService extends IService<EducationExperience
      * @param educationId 教育经历id
      * @return 教育经历
      */
-    EducationVO getEducation(Long educationId);
+    EmployeeEducationVO getEducation(Long educationId);
 
     /**
      * 获取教育经历分页
@@ -37,7 +37,7 @@ public interface EducationExperienceService extends IService<EducationExperience
      * @param educationQueryRequest 查询条件
      * @return 教育经历分页
      */
-    Page<EducationVO> pageEducation(EducationQueryRequest educationQueryRequest);
+    Page<EmployeeEducationVO> pageEducation(EducationQueryRequest educationQueryRequest);
 
     /**
      * 删除教育经历

@@ -2,13 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ice.job.mapper.PositionMapper">
+<mapper namespace="com.ice.job.mapper.PositionTypeMapper">
 
-    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.Position">
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.PositionType">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="positionName" column="positionName" jdbcType="VARCHAR"/>
-            <result property="positionDescript" column="positionDescript" jdbcType="VARCHAR"/>
-            <result property="positionType" column="positionType" jdbcType="BIGINT"/>
+            <result property="positionTypeName" column="positionTypeName" jdbcType="VARCHAR"/>
             <result property="postNum" column="postNum" jdbcType="INTEGER"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
@@ -16,8 +14,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,positionName,positionDescript,
-        positionType,postNum,createTime,
-        updateTime,isDelete
+        id,positionTypeName,postNum,
+        createTime,updateTime,isDelete
     </sql>
 </mapper>

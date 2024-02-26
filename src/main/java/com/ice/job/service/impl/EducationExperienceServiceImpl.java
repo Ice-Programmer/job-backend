@@ -20,7 +20,7 @@ import com.ice.job.model.enums.EducationEnum;
 import com.ice.job.model.request.education.EducationAddRequest;
 import com.ice.job.model.request.education.EducationQueryRequest;
 import com.ice.job.model.request.education.EducationUpdateRequest;
-import com.ice.job.model.vo.EducationVO;
+import com.ice.job.model.vo.EmployeeEducationVO;
 import com.ice.job.service.EducationExperienceService;
 import com.ice.job.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -72,7 +72,7 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
     }
 
     @Override
-    public EducationVO getEducation(Long educationId) {
+    public EmployeeEducationVO getEducation(Long educationId) {
         EducationExperience education = baseMapper.selectOne(Wrappers.<EducationExperience>lambdaQuery()
                 .eq(EducationExperience::getId, educationId)
                 .last("limit 1"));
@@ -81,7 +81,7 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
     }
 
     @Override
-    public Page<EducationVO> pageEducation(EducationQueryRequest educationQueryRequest) {
+    public Page<EmployeeEducationVO> pageEducation(EducationQueryRequest educationQueryRequest) {
         long current = educationQueryRequest.getCurrent();
         long size = educationQueryRequest.getPageSize();
 
@@ -91,13 +91,13 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
         List<EducationExperience> educationList = educationPage.getRecords();
 
         // 包装teacherVO类
-        List<EducationVO> educationVOList = educationList.stream()
+        List<EmployeeEducationVO> employeeEducationVOList = educationList.stream()
                 .map(this::getEducationVO)
                 .collect(Collectors.toList());
 
-        Page<EducationVO> educationVOPage = new Page<>(educationPage.getCurrent(), educationPage.getSize(), educationPage.getTotal());
+        Page<EmployeeEducationVO> educationVOPage = new Page<>(educationPage.getCurrent(), educationPage.getSize(), educationPage.getTotal());
 
-        educationVOPage.setRecords(educationVOList);
+        educationVOPage.setRecords(employeeEducationVOList);
 
         return educationVOPage;
     }
@@ -147,12 +147,12 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
      * @param education 教育经历
      * @return educationVO
      */
-    private EducationVO getEducationVO(EducationExperience education) {
+    private EmployeeEducationVO getEducationVO(EducationExperience education) {
         if (education == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "教育经历不存在！");
         }
-        EducationVO educationVO = new EducationVO();
-        BeanUtils.copyProperties(education, educationVO);
+        EmployeeEducationVO employeeEducationVO = new EmployeeEducationVO();
+        BeanUtils.copyProperties(education, employeeEducationVO);
 
         // 学校名称
         Long schoolId = education.getSchoolId();
@@ -161,7 +161,7 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
                 .select(School::getSchoolName)
                 .last("limit 1"));
         ThrowUtils.throwIf(school == null, ErrorCode.NOT_FOUND_ERROR, "学校信息不存在！");
-        educationVO.setSchoolName(school.getSchoolName());
+        employeeEducationVO.setSchoolName(school.getSchoolName());
 
         // 专业名称
         Long majorId = education.getMajorId();
@@ -170,9 +170,9 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
                 .select(Major::getMajorName)
                 .last("limit 1"));
         ThrowUtils.throwIf(major == null, ErrorCode.NOT_FOUND_ERROR, "专业信息不存在！");
-        educationVO.setMajorName(major.getMajorName());
+        employeeEducationVO.setMajorName(major.getMajorName());
 
-        return educationVO;
+        return employeeEducationVO;
     }
 
 

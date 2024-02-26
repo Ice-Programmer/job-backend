@@ -1,15 +1,17 @@
 package com.ice.job.controller;
 
+import com.ice.job.annotation.AuthCheck;
 import com.ice.job.common.BaseResponse;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.common.ResultUtils;
+import com.ice.job.constant.UserConstant;
+import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
+import com.ice.job.model.entity.User;
 import com.ice.job.model.request.employee.EmployeeUpdateRequest;
+import com.ice.job.model.vo.EmployeeVO;
 import com.ice.job.service.EmployeeService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -42,4 +44,31 @@ public class EmployeeController {
     }
 
 
+    /**
+     * 获取应聘者信息接口
+     *
+     * @param userId 用户id
+     * @return 应聘者信息
+     */
+    @GetMapping("/get/{userId}")
+    @AuthCheck(mustRole = UserConstant.EMPLOYER_ROLE)
+    public BaseResponse<EmployeeVO> getEmployeeById(@PathVariable("userId") Long userId) {
+        if (userId == null || userId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户 id 为空");
+        }
+
+        EmployeeVO employeeVO = employeeService.getEmployeeById(userId);
+
+        return ResultUtils.success(employeeVO);
+    }
+
+    @GetMapping("/get/current")
+    public BaseResponse<EmployeeVO> getCurrentEmployee() {
+        // 获取当前用户
+        Long userId = UserHolder.getUser().getId();
+
+        EmployeeVO currentEmployee = employeeService.getEmployeeById(userId);
+
+        return ResultUtils.success(currentEmployee);
+    }
 }
