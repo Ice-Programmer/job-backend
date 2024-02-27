@@ -35,4 +35,7 @@ public interface CacheConstant {
      */
     String CAREER_LIST_KEY = "other:career:list";
     Long CAREER_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
+
+    String COMPANY_INFO_KEY = "company:info:";
+    Long COMPANY_INFO_TTL = 30 * 24 * 60 * 60L;    // 30 day
 }

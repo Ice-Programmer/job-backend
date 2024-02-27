@@ -204,3 +204,33 @@ create table if not exists province_type
     updateTime   datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete     tinyint  default 0                 not null comment '是否删除'
 ) comment '省份类型' collate = utf8mb4_unicode_ci;
+
+-- 招聘者表
+create table if not exists employer
+(
+    id         bigint auto_increment comment 'id' primary key,
+    userId     bigint                             not null comment '用户id',
+    companyId  bigint                             not null comment '公司id',
+    positionId bigint                             not null comment '招聘者职位id',
+    createTime datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete   tinyint  default 0                 not null comment '是否删除',
+    index idx_userId (userId)
+) comment '招聘者' collate = utf8mb4_unicode_ci;
+
+-- 公司信息表
+create table if not exists company
+(
+    id              bigint auto_increment comment 'id' primary key,
+    companyName     varchar(256)                            not null comment '公司名称',
+    companyDescript text                                    not null comment '公司介绍',
+    companyAddress  varchar(1024)                           not null comment '公司地点',
+    cityId          bigint                                  not null comment '所在城市id',
+    postNum         int           default 0                 not null comment '相关数量',
+    companyLogo     varchar(256)                            not null comment '公司Logo',
+    companyImg      varchar(1024) default '[]'              null comment '公司图片',
+    companyIndustry bigint                                  not null comment '公司产业',
+    createTime      datetime      default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime      datetime      default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete        tinyint       default 0                 not null comment '是否删除'
+) comment '公司信息' collate = utf8mb4_unicode_ci;

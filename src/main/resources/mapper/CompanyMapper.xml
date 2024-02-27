@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.CompanyMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.Company">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="companyName" column="companyName" jdbcType="VARCHAR"/>
+            <result property="companyDescript" column="companyDescript" jdbcType="VARCHAR"/>
+            <result property="companyAddress" column="companyAddress" jdbcType="VARCHAR"/>
+            <result property="cityId" column="cityId" jdbcType="BIGINT"/>
+            <result property="postNum" column="postNum" jdbcType="INTEGER"/>
+            <result property="companyLogo" column="companyLogo" jdbcType="VARCHAR"/>
+            <result property="companyImg" column="companyImg" jdbcType="VARCHAR"/>
+            <result property="companyIndustry" column="companyIndustry" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,companyName,companyDescript,
+        companyAddress,cityId,postNum,companyLogo,companyImg,
+        companyIndustry,createTime,updateTime,
+        isDelete
+    </sql>
+</mapper>
