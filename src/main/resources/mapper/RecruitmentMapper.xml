@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ice.job.mapper.RecruitmentMapper">
+
+    <resultMap id="BaseResultMap" type="com.ice.job.model.entity.Recruitment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="jobName" column="jobName" jdbcType="VARCHAR"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="companyId" column="companyId" jdbcType="BIGINT"/>
+            <result property="positionId" column="positionId" jdbcType="BIGINT"/>
+            <result property="industryId" column="industryId" jdbcType="BIGINT"/>
+            <result property="jobDescription" column="jobDescription" jdbcType="VARCHAR"/>
+            <result property="jobRequirements" column="jobRequirements" jdbcType="VARCHAR"/>
+            <result property="educationType" column="educationType" jdbcType="TINYINT"/>
+            <result property="jobKeyword" column="jobKeyword" jdbcType="VARCHAR"/>
+            <result property="jobSkills" column="jobSkills" jdbcType="VARCHAR"/>
+            <result property="jobType" column="jobType" jdbcType="INTEGER"/>
+            <result property="jobAddress" column="jobAddress" jdbcType="VARCHAR"/>
+            <result property="salaryUpper" column="salaryUpper" jdbcType="INTEGER"/>
+            <result property="salaryLower" column="salaryLower" jdbcType="INTEGER"/>
+            <result property="salaryUnit" column="salaryUnit" jdbcType="TINYINT"/>
+            <result property="cityId" column="cityId" jdbcType="BIGINT"/>
+            <result property="jobActive" column="jobActive" jdbcType="TINYINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,jobName,userId,
+        companyId,positionId,industryId,
+        jobDescription,jobRequirements,educationType,
+        jobKeyword,jobSkills,jobType,jobAddress,
+        salaryUpper,salaryLower,salaryUnit,
+        cityId,jobActive,createTime,
+        updateTime,isDelete
+    </sql>
+</mapper>

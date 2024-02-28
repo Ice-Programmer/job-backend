@@ -223,3 +223,31 @@ create table if not exists company
     updateTime      datetime      default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete        tinyint       default 0                 not null comment '是否删除'
 ) comment '公司信息' collate = utf8mb4_unicode_ci;
+
+-- 招聘信息表
+create table if not exists recruitment
+(
+    id              bigint auto_increment comment 'id' primary key,
+    jobName        varchar(512)                            not null comment '岗位招聘标题',
+    userId          bigint                                  not null comment '岗位发布者id',
+    companyId       bigint                                  not null comment '公司id',
+    positionId      bigint                                  not null comment '职业id',
+    industryId      bigint                                  not null comment '行业id',
+    jobDescription  text                                    not null comment '职位详情',
+    jobRequirements text                                    not null comment '职位要求',
+    educationType   tinyint                                 null comment '最低学历要求',
+    jobKeyword      varchar(1024)                           not null comment '职业关键词JSON',
+    jobSkills       varchar(1024) default '[]'              null comment '职业技术栈JSON',
+    jobType         int                                     not null comment '职业类型（实习、兼职、春招等）',
+    jobAddress      varchar(256)                            not null comment '岗位要求地址',
+    salaryUpper     int                                     null comment '薪水上限',
+    salaryLower     int                                     null comment '薪水下限',
+    salaryUnit      tinyint                                 null comment '薪水种类',
+    cityId          bigint                                  not null comment '所在城市id',
+    jobActive       tinyint       default 0                 not null comment '招聘活跃 （0 - 招聘中 1 - 结束招聘）',
+    createTime      datetime      default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime      datetime      default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete        tinyint       default 0                 not null comment '是否删除',
+    index idx_userId (userId),
+    index idx_companyId (companyId)
+) comment '招聘信息' collate = utf8mb4_unicode_ci;

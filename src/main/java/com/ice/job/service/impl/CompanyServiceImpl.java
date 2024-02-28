@@ -109,7 +109,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company>
 
         List<Company> companyList = companyPage.getRecords();
 
-        // 包装teacherVO类
+        // 包装VO类
         List<CompanyVO> employeeCompanyVOList = companyList.stream()
                 .map(this::getCompanyVO)
                 .collect(Collectors.toList());

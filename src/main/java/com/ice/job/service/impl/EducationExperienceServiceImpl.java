@@ -90,7 +90,7 @@ public class EducationExperienceServiceImpl extends ServiceImpl<EducationExperie
 
         List<EducationExperience> educationList = educationPage.getRecords();
 
-        // 包装teacherVO类
+        // 包装VO类
         List<EmployeeEducationVO> employeeEducationVOList = educationList.stream()
                 .map(this::getEducationVO)
                 .collect(Collectors.toList());

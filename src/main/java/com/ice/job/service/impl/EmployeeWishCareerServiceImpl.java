@@ -106,7 +106,7 @@ public class EmployeeWishCareerServiceImpl extends ServiceImpl<EmployeeWishCaree
 
         List<EmployeeWishCareer> employeeWishCareerList = employeeWishCareerPage.getRecords();
 
-        // 包装teacherVO类
+        // 包装VO类
         List<EmployeeWishCareerVO> employeeWishCareerVOList = employeeWishCareerList.stream()
                 .map(this::getEmployeeWishCareerVO)
                 .collect(Collectors.toList());

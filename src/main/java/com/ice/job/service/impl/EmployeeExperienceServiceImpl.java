@@ -82,7 +82,7 @@ public class EmployeeExperienceServiceImpl extends ServiceImpl<EmployeeExperienc
 
         List<EmployeeExperience> experienceList = experiencePage.getRecords();
 
-        // 包装teacherVO类
+        // 包装VO类
         List<EmployeeExperienceVO> experienceVOList = experienceList.stream()
                 .map(this::getEmployeeExperienceVO)
                 .collect(Collectors.toList());
