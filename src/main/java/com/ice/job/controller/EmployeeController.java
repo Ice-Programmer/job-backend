@@ -62,6 +62,11 @@ public class EmployeeController {
         return ResultUtils.success(employeeVO);
     }
 
+    /**
+     * 获取当前应聘者信息
+     *
+     * @return 应聘者详细信息
+     */
     @GetMapping("/get/current")
     public BaseResponse<EmployeeVO> getCurrentEmployee() {
         // 获取当前用户

@@ -15,8 +15,14 @@ public interface CacheConstant {
     /**
      * 应聘者信息
      */
-    String USER_EMPLOYEE_KEY = "user:employee:info:";
+    String USER_EMPLOYEE_KEY = "user:employer:info:";
     Long USER_EMPLOYEE_TTL = 24 * 60 * 60L;    // 1 day
+
+    /**
+     * 招聘者信息
+     */
+    String USER_EMPLOYER_KEY = "user:employer:info:";
+    Long USER_EMPLOYER_TTL = 24 * 60 * 60L;    // 1 day
 
     /**
      * 应聘者资格证书
@@ -36,6 +42,9 @@ public interface CacheConstant {
     String CAREER_LIST_KEY = "other:career:list";
     Long CAREER_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
 
+    /**
+     * 公司类型
+     */
     String COMPANY_INFO_KEY = "company:info:";
     Long COMPANY_INFO_TTL = 30 * 24 * 60 * 60L;    // 30 day
 }
