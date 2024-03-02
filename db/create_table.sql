@@ -228,7 +228,7 @@ create table if not exists company
 create table if not exists recruitment
 (
     id              bigint auto_increment comment 'id' primary key,
-    jobName        varchar(512)                            not null comment '岗位招聘标题',
+    jobName         varchar(512)                            not null comment '岗位招聘标题',
     userId          bigint                                  not null comment '岗位发布者id',
     companyId       bigint                                  not null comment '公司id',
     positionId      bigint                                  not null comment '职业id',
@@ -251,3 +251,27 @@ create table if not exists recruitment
     index idx_userId (userId),
     index idx_companyId (companyId)
 ) comment '招聘信息' collate = utf8mb4_unicode_ci;
+
+-- 招聘信息收藏
+create table recruitment_favour
+(
+    id            bigint auto_increment comment 'id' primary key,
+    recruitmentId bigint                             not null comment '招聘信息id',
+    userId        bigint                             not null comment '用户id',
+    createTime    datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    updateTime    datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    index idx_userId (userId),
+    index idx_recruitmentId (recruitmentId)
+) comment '招聘信息收藏' collate = utf8mb4_unicode_ci;
+
+-- 公司信息收藏
+create table company_favour
+(
+    id         bigint auto_increment comment 'id' primary key,
+    companyId  bigint                             not null comment '公司id',
+    userId     bigint                             not null comment '用户id',
+    createTime datetime default CURRENT_TIMESTAMP null comment '创建时间',
+    updateTime datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    index idx_userId (userId),
+    index idx_companyId (companyId)
+) comment '公司信息收藏' collate = utf8mb4_unicode_ci;

@@ -1,6 +1,5 @@
 package com.ice.job.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

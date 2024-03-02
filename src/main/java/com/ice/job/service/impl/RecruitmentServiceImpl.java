@@ -25,19 +25,12 @@ import com.ice.job.service.RecruitmentService;
 import com.ice.job.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.joda.time.LocalTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -83,6 +76,7 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentMapper, Recru
         Employer employer = employerMapper.selectOne(Wrappers.<Employer>lambdaQuery()
                 .eq(Employer::getUserId, userId)
                 .select(Employer::getCompanyId));
+        ThrowUtils.throwIf(employer == null, ErrorCode.PARAMS_ERROR, "请先补充公司相关信息");
 
         // 补充招聘关键词
         List<String> jobKeywordList = recruitmentAddRequest.getJobKeywords();

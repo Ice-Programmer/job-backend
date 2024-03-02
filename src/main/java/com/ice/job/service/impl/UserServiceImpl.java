@@ -153,6 +153,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             // 插入默认头像
             user.setUserAvatar(getRandomAvatar(userRole));
             user.setCityId(cityId);
+            user.setUserRole(userRole);
             // 插入默认名称
             String userName = UserConstant.USER_NAME_PREFIX + RandomUtil.randomString(10);
             user.setUserName(userName);
