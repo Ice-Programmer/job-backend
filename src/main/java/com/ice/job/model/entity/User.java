@@ -62,7 +62,7 @@ public class User implements Serializable {
     /**
      * 近期活跃天数
      */
-    private Integer lastActive;
+    private Date loginTime;
 
     /**
      * 创建时间

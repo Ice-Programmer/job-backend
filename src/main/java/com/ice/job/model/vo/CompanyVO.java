@@ -3,6 +3,7 @@ package com.ice.job.model.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -33,9 +34,24 @@ public class CompanyVO implements Serializable {
     private String companyAddress;
 
     /**
+     * X坐标
+     */
+    private BigDecimal coordinateX;
+
+    /**
+     * Y坐标
+     */
+    private BigDecimal coordinateY;
+
+    /**
      * 公司Logo
      */
     private String companyLogo;
+
+    /**
+     * 背景图片
+     */
+    private String backgroundImage;
 
     /**
      * 公司图片

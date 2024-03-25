@@ -3,6 +3,7 @@ package com.ice.job.controller;
 import com.ice.job.common.BaseResponse;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.common.ResultUtils;
+import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
 import com.ice.job.model.request.user.UserLoginRequest;
 import com.ice.job.model.request.user.UserRegisterRequest;
@@ -10,10 +11,7 @@ import com.ice.job.model.request.user.UserUpdateRequest;
 import com.ice.job.model.vo.UserLoginVO;
 import com.ice.job.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -95,4 +93,14 @@ public class UserController {
         return ResultUtils.success(result);
     }
 
+    /**
+     * 获取当前登陆用户信息
+     *
+     * @return 用户基础信息
+     */
+    @GetMapping("/user/current")
+    public BaseResponse<UserLoginVO> getCurrentUser() {
+        UserLoginVO currentUserInfo = UserHolder.getUser();
+        return ResultUtils.success(currentUserInfo);
+    }
 }

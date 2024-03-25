@@ -3,6 +3,7 @@ package com.ice.job.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
@@ -35,6 +36,16 @@ public class Company implements Serializable {
     private String companyAddress;
 
     /**
+     * X坐标
+     */
+    private BigDecimal coordinateX;
+
+    /**
+     * Y坐标
+     */
+    private BigDecimal coordinateY;
+
+    /**
      * 所在城市id
      */
     private Long cityId;
@@ -48,6 +59,11 @@ public class Company implements Serializable {
      * 公司Logo
      */
     private String companyLogo;
+
+    /**
+     * 背景图片
+     */
+    private String backgroundImage;
 
     /**
      * 公司图片

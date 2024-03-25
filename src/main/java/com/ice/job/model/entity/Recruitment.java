@@ -3,6 +3,7 @@ package com.ice.job.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import lombok.Data;
 
@@ -78,6 +79,16 @@ public class Recruitment implements Serializable {
      * 岗位要求地址
      */
     private String jobAddress;
+
+    /**
+     * X坐标
+     */
+    private BigDecimal coordinateX;
+
+    /**
+     * Y坐标
+     */
+    private BigDecimal coordinateY;
 
     /**
      * 薪水上限

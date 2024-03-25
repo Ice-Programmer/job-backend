@@ -22,6 +22,7 @@ import com.ice.job.model.vo.IndustryVO;
 import com.ice.job.model.vo.PositionVO;
 import com.ice.job.model.vo.RecruitmentVO;
 import com.ice.job.service.RecruitmentService;
+import com.ice.job.utils.DateUtil;
 import com.ice.job.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -62,7 +64,13 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentMapper, Recru
     private CompanyMapper companyMapper;
 
     @Resource
+    private UserMapper userMapper;
+
+    @Resource
     private CityMapper cityMapper;
+
+    @Resource
+    private ProvinceTypeMapper provinceTypeMapper;
 
     @Override
     public Long addRecruitment(RecruitmentAddRequest recruitmentAddRequest) {
@@ -242,6 +250,31 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentMapper, Recru
         BeanUtils.copyProperties(industry, industryVO);
         recruitmentVO.setIndustryInfo(industryVO);
 
+        // 封装招聘者信息
+        Long userId = recruitment.getUserId();
+        RecruitmentVO.EmployerInfo employerInfo = new RecruitmentVO.EmployerInfo();
+        User employerUserInfo = userMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getId, userId)
+                .select(User::getId, User::getUserName, User::getUserAvatar, User::getLoginTime)
+                .last("limit 1"));
+        BeanUtils.copyProperties(employerUserInfo, employerInfo);
+        // 判断登录时间与当前时间差
+        long daysBetween = DateUtil.daysBetween(employerUserInfo.getLoginTime(), new Date());
+        employerInfo.setLastLogin(daysBetween);
+        // 获取招聘者职位
+        Employer employer = employerMapper.selectOne(Wrappers.<Employer>lambdaQuery()
+                .eq(Employer::getUserId, employerUserInfo.getId())
+                .select(Employer::getPositionId)
+                .last("limit 1"));
+        if (employer.getPositionId() != null) {
+            Position employerPosition = positionMapper.selectOne(Wrappers.<Position>lambdaQuery()
+                    .eq(Position::getId, employer.getPositionId())
+                    .select(Position::getPositionName)
+                    .last("limit 1"));
+            employerInfo.setPositionName(employerPosition.getPositionName());
+        }
+        recruitmentVO.setEmployerInfo(employerInfo);
+
         // 补充职业技术栈
         String jobSkills = recruitment.getJobSkills();
         List<String> jobSkillList = GSON.fromJson(jobSkills, new TypeToken<List<String>>() {
@@ -254,6 +287,21 @@ public class RecruitmentServiceImpl extends ServiceImpl<RecruitmentMapper, Recru
         }.getType());
         recruitmentVO.setJobKeywords(jobKeywordList);
 
+        // 补充城市信息
+        City city = cityMapper.selectOne(Wrappers.<City>lambdaQuery()
+                .eq(City::getId, recruitment.getCityId())
+                .select(City::getCityName, City::getProvinceType)
+                .last("limit 1"));
+        ThrowUtils.throwIf(city == null, ErrorCode.NOT_FOUND_ERROR, "职位城市信息不存在");
+        // 拼接省份 + 城市
+        ProvinceType province = provinceTypeMapper.selectOne(Wrappers.<ProvinceType>lambdaQuery()
+                .eq(ProvinceType::getId, city.getProvinceType())
+                .select(ProvinceType::getProvinceName)
+                .last("limit 1"));
+        String cityAddress = province.getProvinceName() +
+                "，" +
+                city.getCityName();
+        recruitmentVO.setCityAddress(cityAddress);
         return recruitmentVO;
     }
 

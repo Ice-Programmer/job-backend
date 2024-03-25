@@ -1,6 +1,7 @@
 package com.ice.job.model.vo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +22,21 @@ public class EmployerVO implements Serializable {
      * 用户名称
      */
     private String userName;
+
+    /**
+     * 手机号
+     */
+    private String userPhone;
+
+    /**
+     * 用户头像
+     */
+    private String userAvatar;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 公司id

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +57,41 @@ public class RecruitmentVO implements Serializable {
     }
 
     /**
+     * 招聘者信息
+     */
+    private EmployerInfo employerInfo;
+
+    @Data
+    @NoArgsConstructor
+    public static class EmployerInfo {
+
+        /**
+         * id
+         */
+        private Long id;
+
+        /**
+         * 用户头像
+         */
+        private String userAvatar;
+
+        /**
+         * 招聘者姓名
+         */
+        private String userName;
+
+        /**
+         * 职位名称
+         */
+        private String positionName;
+
+        /**
+         * 近期登录
+         */
+        private Long lastLogin;
+    }
+
+    /**
      * 职业信息
      */
     private PositionVO positionInfo;
@@ -101,6 +137,16 @@ public class RecruitmentVO implements Serializable {
     private String jobAddress;
 
     /**
+     * X坐标
+     */
+    private BigDecimal coordinateX;
+
+    /**
+     * Y坐标
+     */
+    private BigDecimal coordinateY;
+
+    /**
      * 薪水上限
      */
     private Integer salaryUpper;
@@ -119,6 +165,11 @@ public class RecruitmentVO implements Serializable {
      * 所在城市id
      */
     private Long cityId;
+
+    /**
+     * 城市地址
+     */
+    private String cityAddress;
 
     /**
      * 招聘活跃 （0 - 招聘中 1 - 结束招聘）

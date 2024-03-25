@@ -18,6 +18,8 @@
             <result property="jobSkills" column="jobSkills" jdbcType="VARCHAR"/>
             <result property="jobType" column="jobType" jdbcType="INTEGER"/>
             <result property="jobAddress" column="jobAddress" jdbcType="VARCHAR"/>
+            <result property="coordinateX" column="coordinateX" jdbcType="DECIMAL"/>
+            <result property="coordinateY" column="coordinateY" jdbcType="DECIMAL"/>
             <result property="salaryUpper" column="salaryUpper" jdbcType="INTEGER"/>
             <result property="salaryLower" column="salaryLower" jdbcType="INTEGER"/>
             <result property="salaryUnit" column="salaryUnit" jdbcType="TINYINT"/>
@@ -32,7 +34,7 @@
         id,jobName,userId,
         companyId,positionId,industryId,
         jobDescription,jobRequirements,educationType,
-        jobKeyword,jobSkills,jobType,jobAddress,
+        jobKeyword,jobSkills,jobType,jobAddress,coordinateX,coordinateY,
         salaryUpper,salaryLower,salaryUnit,
         cityId,jobActive,createTime,
         updateTime,isDelete

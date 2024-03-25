@@ -55,6 +55,7 @@ public class EmployerServiceImpl extends ServiceImpl<EmployerMapper, Employer>
         BeanUtils.copyProperties(registerRequest, employer);
         validEmployer(employer);
 
+
         // 插入数据库
         baseMapper.insert(employer);
 

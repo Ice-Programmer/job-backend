@@ -7,9 +7,11 @@ import com.ice.job.common.ResultUtils;
 import com.ice.job.constant.UserConstant;
 import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
+import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.entity.User;
 import com.ice.job.model.request.employee.EmployeeUpdateRequest;
 import com.ice.job.model.vo.EmployeeVO;
+import com.ice.job.model.vo.UserLoginVO;
 import com.ice.job.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +72,9 @@ public class EmployeeController {
     @GetMapping("/get/current")
     public BaseResponse<EmployeeVO> getCurrentEmployee() {
         // 获取当前用户
-        Long userId = UserHolder.getUser().getId();
+        UserLoginVO currentUser = UserHolder.getUser();
+        ThrowUtils.throwIf(currentUser == null, ErrorCode.NOT_LOGIN_ERROR);
+        Long userId = currentUser.getId();
 
         EmployeeVO currentEmployee = employeeService.getEmployeeById(userId);
 
