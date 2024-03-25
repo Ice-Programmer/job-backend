@@ -1,26 +1,35 @@
 package com.ice.job.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.ice.job.common.ErrorCode;
 import com.ice.job.constant.CacheConstant;
+import com.ice.job.constant.CommonConstant;
 import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
 import com.ice.job.exception.ThrowUtils;
 import com.ice.job.mapper.*;
 import com.ice.job.model.entity.*;
+import com.ice.job.model.request.employer.EmployerQueryRequest;
 import com.ice.job.model.request.employer.EmployerUpdateRequest;
 import com.ice.job.model.vo.EmployerVO;
 import com.ice.job.service.EmployerService;
+import com.ice.job.utils.SqlUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author chenjiahan
@@ -78,17 +87,59 @@ public class EmployerServiceImpl extends ServiceImpl<EmployerMapper, Employer>
             return cacheEmployerVO;
         }
 
-        EmployerVO employerVO = new EmployerVO();
 
-        // 1. 获取基础用户信息
-        User user = userMapper.selectById(userId);
-        BeanUtils.copyProperties(user, employerVO);
-
-        // 2. 获取招聘者基础信息
+        // 1. 获取招聘者基础信息
         Employer employer = baseMapper.selectOne(Wrappers.<Employer>lambdaQuery()
                 .eq(Employer::getUserId, userId)
                 .last("limit 1"));
+
+        EmployerVO employerVO = getEmployerVO(employer);
+
+        // 将数据放入缓存中
+        String employerVOJSON = GSON.toJson(employerVO);
+        stringRedisTemplate.opsForValue().set(
+                key,
+                employerVOJSON,
+                CacheConstant.USER_EMPLOYER_TTL,
+                TimeUnit.SECONDS
+        );
+
+        return employerVO;
+    }
+
+
+
+    @Override
+    public Page<EmployerVO> pageEmployer(EmployerQueryRequest employerQueryRequest) {
+        long current = employerQueryRequest.getCurrent();
+        long size = employerQueryRequest.getPageSize();
+
+
+        Page<Employer> employerPage = baseMapper.selectPage(new Page<>(current, size),
+                getQueryWrapper(employerQueryRequest));
+
+        List<Employer> employerList = employerPage.getRecords();
+
+        // 包装VO类
+        List<EmployerVO> employerVOList = employerList.stream()
+                .map(this::getEmployerVO)
+                .collect(Collectors.toList());
+
+        Page<EmployerVO> employerVOPage = new Page<>(employerPage.getCurrent(), employerPage.getSize(), employerPage.getTotal());
+
+        employerVOPage.setRecords(employerVOList);
+
+        return employerVOPage;
+    }
+
+    private EmployerVO getEmployerVO(Employer employer) {
+
+        EmployerVO employerVO = new EmployerVO();
         BeanUtils.copyProperties(employer, employerVO);
+
+        // 获取基础用户信息
+        User user = userMapper.selectById(employer.getUserId());
+        BeanUtils.copyProperties(user, employerVO);
 
         // 补充城市信息
         City city = cityMapper.selectOne(Wrappers.<City>lambdaQuery()
@@ -112,18 +163,9 @@ public class EmployerServiceImpl extends ServiceImpl<EmployerMapper, Employer>
                 .select(Company::getCompanyName)
                 .last("limit 1"));
         employerVO.setCompanyName(company.getCompanyName());
-
-        // 将数据放入缓存中
-        String employerVOJSON = GSON.toJson(employerVO);
-        stringRedisTemplate.opsForValue().set(
-                key,
-                employerVOJSON,
-                CacheConstant.USER_EMPLOYER_TTL,
-                TimeUnit.SECONDS
-        );
-
         return employerVO;
     }
+
 
     /**
      * 校验注册信息
@@ -155,6 +197,41 @@ public class EmployerServiceImpl extends ServiceImpl<EmployerMapper, Employer>
         boolean positionExist = positionMapper.exists(Wrappers.<Position>lambdaQuery()
                 .eq(Position::getId, positionId));
         ThrowUtils.throwIf(!positionExist, ErrorCode.NOT_FOUND_ERROR, "职业信息不存在!");
+    }
+
+    /**
+     * 拼接查询条件
+     *
+     * @param employerQueryRequest 查询条件
+     * @return QueryWrapper
+     */
+    private QueryWrapper<Employer> getQueryWrapper(EmployerQueryRequest employerQueryRequest) {
+        QueryWrapper<Employer> queryWrapper = new QueryWrapper<>();
+
+        if (employerQueryRequest == null) {
+            return queryWrapper;
+        }
+
+        Long userId = employerQueryRequest.getUserId();
+        List<Long> userIdList = employerQueryRequest.getUserIdList();
+        Long positionId = employerQueryRequest.getPositionId();
+        Long companyId = employerQueryRequest.getCompanyId();
+        String sortField = employerQueryRequest.getSortField();
+        String sortOrder = employerQueryRequest.getSortOrder();
+
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        if (!CollectionUtils.isEmpty(userIdList)) {
+            queryWrapper.in("id", userIdList);
+        }
+
+        queryWrapper.eq(ObjectUtils.isNotEmpty(positionId), "positionId", positionId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(companyId), "companyId", companyId);
+
+
+        queryWrapper.eq("isDelete", false);
+        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
+                sortField);
+        return queryWrapper;
     }
 }
 

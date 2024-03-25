@@ -1,7 +1,9 @@
 package com.ice.job.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ice.job.model.entity.Employer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ice.job.model.request.employer.EmployerQueryRequest;
 import com.ice.job.model.request.employer.EmployerUpdateRequest;
 import com.ice.job.model.vo.EmployerVO;
 
@@ -26,4 +28,12 @@ public interface EmployerService extends IService<Employer> {
      * @return 招聘者信息
      */
     EmployerVO getEmployerById(Long userId);
+
+    /**
+     * 获取招聘者分页
+     *
+     * @param employerQueryRequest 查询条件
+     * @return 招聘者分页
+     */
+    Page<EmployerVO> pageEmployer(EmployerQueryRequest employerQueryRequest);
 }

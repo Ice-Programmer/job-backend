@@ -1,5 +1,6 @@
 package com.ice.job.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ice.job.annotation.AuthCheck;
 import com.ice.job.common.BaseResponse;
 import com.ice.job.common.ErrorCode;
@@ -7,7 +8,10 @@ import com.ice.job.common.ResultUtils;
 import com.ice.job.constant.UserConstant;
 import com.ice.job.constant.UserHolder;
 import com.ice.job.exception.BusinessException;
+import com.ice.job.exception.ThrowUtils;
 import com.ice.job.model.request.employer.EmployerUpdateRequest;
+import com.ice.job.model.request.employer.EmployerQueryRequest;
+import com.ice.job.model.vo.EmployerVO;
 import com.ice.job.model.vo.EmployerVO;
 import com.ice.job.service.EmployerService;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +80,20 @@ public class EmployerController {
         return ResultUtils.success(currentEmployer);
     }
 
+    /**
+     * 获取招聘者分页接口
+     *
+     * @param employerQueryRequest 查询条件
+     * @return 招聘者分页
+     */
+    @PostMapping("/page")
+    public BaseResponse<Page<EmployerVO>> pageEmployer(@RequestBody EmployerQueryRequest employerQueryRequest) {
+        long size = employerQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
 
+        Page<EmployerVO> employerVOPage = employerService.pageEmployer(employerQueryRequest);
+
+        return ResultUtils.success(employerVOPage);
+    }
 }
