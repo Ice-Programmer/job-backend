@@ -3,18 +3,17 @@ package com.ice.job.model.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-
 import lombok.Data;
 
 /**
- * 应聘者
- *
- * @TableName employee
+ * 招聘评价
+ * @TableName recruitment_comment
  */
-@TableName(value = "employee")
+@TableName(value ="recruitment_comment")
 @Data
-public class Employee implements Serializable {
+public class RecruitmentComment implements Serializable {
     /**
      * id
      */
@@ -22,49 +21,29 @@ public class Employee implements Serializable {
     private Long id;
 
     /**
-     * 用户id
+     * 发布者id
      */
     private Long userId;
 
     /**
-     * 性别（0 - 女 1 - 男）
+     * 招聘id
      */
-    private Integer gender;
+    private Long recruitmentId;
 
     /**
-     * 年龄
+     * 评分
      */
-    private Integer age;
+    private BigDecimal star;
 
     /**
-     * 个人优势
+     * 评价内容
      */
-    private String advantage;
+    private String commentText;
 
     /**
-     * 技能证书
+     * 点赞数
      */
-    private String qualificationIds;
-
-    /**
-     * 技能标签
-     */
-    private String skillTag;
-
-    /**
-     * 最高学历
-     */
-    private Integer education;
-
-    /**
-     * 毕业年份
-     */
-    private Integer graduateYear;
-
-    /**
-     * 求职状态
-     */
-    private Integer jobStatus;
+    private Integer likeNum;
 
     /**
      * 创建时间

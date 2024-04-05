@@ -2,6 +2,9 @@ package com.ice.job.service;
 
 import com.ice.job.model.entity.Major;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ice.job.model.vo.MajorVO;
+
+import java.util.List;
 
 /**
 * @author chenjiahan
@@ -10,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface MajorService extends IService<Major> {
 
+    /**
+     * 获取专业列表
+     *
+     * @return 专业列表
+     */
+    List<MajorVO> listMajor();
 }

@@ -35,13 +35,25 @@ create table if not exists employee
     education        int      default 1                 not null comment '最高学历',
     graduateYear     int                                not null comment '毕业年份',
     jobStatus        tinyint                            not null comment '求职状态',
-    biography        varchar(1024)                      null comment '简历地址',
     cityId           bigint                             not null comment '居住地',
     createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete         tinyint  default 0                 not null comment '是否删除',
     index idx_userId (userId)
 ) comment '应聘者' collate = utf8mb4_unicode_ci;
+
+-- 应聘者简历
+create table if not exists employee_biography
+(
+    id               bigint auto_increment comment 'id' primary key,
+    userId           bigint                             not null comment '用户id',
+    biographyName    varchar(256)                       not null comment '简历名称',
+    biographyAddress varchar(1024)                      not null comment '简历地址',
+    createTime       datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime       datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete         tinyint  default 0                 not null comment '是否删除',
+    index idx_userId (userId)
+) comment '应聘者简历' collate = utf8mb4_unicode_ci;
 
 -- 应聘者经历表
 create table if not exists employee_experience
@@ -257,8 +269,34 @@ create table if not exists recruitment
     index idx_companyId (companyId)
 ) comment '招聘信息' collate = utf8mb4_unicode_ci;
 
+-- 招聘评价
+create table if not exists recruitment_comment
+(
+    id            bigint auto_increment comment 'id' primary key,
+    userId        bigint                             not null comment '发布者id',
+    recruitmentId bigint                             not null comment '招聘id',
+    star          decimal(3, 1)                      not null comment '评分',
+    commentText   varchar(1024)                      not null comment '评价内容',
+    likeNum       int      default 0                 not null comment '点赞数',
+    createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete      tinyint  default 0                 not null comment '是否删除',
+    index idx_companyId (recruitmentId)
+) comment '招聘评价' collate = utf8mb4_unicode_ci;
+
+-- 招聘评价点赞
+create table if not exists recruitment_comment_like
+(
+    id                   bigint auto_increment comment 'id' primary key,
+    userId               bigint                             not null comment '发布者id',
+    recruitmentCommentId bigint                             not null comment '招聘留言id',
+    createTime           datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    index idx_userId (userId),
+    index idx_recruitmentCommentId (recruitmentCommentId)
+) comment '招聘评价点赞' collate = utf8mb4_unicode_ci;
+
 -- 招聘信息收藏
-create table recruitment_favour
+create table if not exists recruitment_favour
 (
     id            bigint auto_increment comment 'id' primary key,
     recruitmentId bigint                             not null comment '招聘信息id',
@@ -270,7 +308,7 @@ create table recruitment_favour
 ) comment '招聘信息收藏' collate = utf8mb4_unicode_ci;
 
 -- 公司信息收藏
-create table company_favour
+create table if not exists company_favour
 (
     id         bigint auto_increment comment 'id' primary key,
     companyId  bigint                             not null comment '公司id',

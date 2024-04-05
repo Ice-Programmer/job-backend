@@ -83,11 +83,6 @@ public class EmployeeVO {
     private Integer jobStatus;
 
     /**
-     * 简历地址
-     */
-    private String biography;
-
-    /**
      * 期望职位
      */
     private List<EmployeeWishCareerVO> wishCareerInfoList;

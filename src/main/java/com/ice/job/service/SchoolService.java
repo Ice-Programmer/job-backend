@@ -2,6 +2,9 @@ package com.ice.job.service;
 
 import com.ice.job.model.entity.School;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ice.job.model.vo.SchoolVO;
+
+import java.util.List;
 
 /**
 * @author chenjiahan
@@ -10,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SchoolService extends IService<School> {
 
+    /**
+     * 获取学校列表
+     *
+     * @return 学校列表
+     */
+    List<SchoolVO> listSchool();
 }

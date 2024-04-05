@@ -43,6 +43,19 @@ public interface CacheConstant {
     Long CAREER_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
 
     /**
+     * 学校列表类型
+     */
+    String SCHOOL_LIST_KEY = "others:school:list";
+    Long SCHOOL_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
+
+    /**
+     * 专业列表类型
+     */
+    String MAJOR_LIST_KEY = "others:major:list";
+    Long MAJOR_LIST_TTL = 30 * 24 * 60 * 60L;    // 30 day
+
+
+    /**
      * 公司类型
      */
     String COMPANY_INFO_KEY = "company:info:";

@@ -52,10 +52,5 @@ public class EmployeeUpdateRequest implements Serializable {
      */
     private Integer jobStatus;
 
-    /**
-     * 简历地址
-     */
-    private String biography;
-
     private static final long serialVersionUID = 1L;
 }
